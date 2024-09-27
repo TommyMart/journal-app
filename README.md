@@ -22,6 +22,11 @@
   localhost:3000/search/:searchKey/:searchValue
   localhost:3000/search/type/review
 
+## Contexts
+
+- Journal Entries
+  - Array
+
 ```js
 {
 id: "12324",
