@@ -1,36 +1,55 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useLocalStorage } from "react-use";
 
 
-// Create the context
-//       SomeContectVariable = createContext(defaultValue);
-const JournalEntriesContext = createContext([]);
+// Create the context 
+// 		SomeContextVariable = createContext(defaultValue);
+const JournalEntriesDataContext = createContext([]);
+const JournalEntriesSetterContext = createContext(null);
 
-// function SomeExample() {
-//     const journalData = useContext(JournalEntriesContext)
+// function SomeExample(){
+// 	const journalData = useContext(JournalEntriesContext);
 // }
 
-// Create custom hooks to access the context data
+// Create custom hooks to access the context data 
 export function useJournalEntriesData(){
-    console.log("Passing data around!");
-    let currentJournalData = useContext(JournalEntriesContext);
-    if (currentJournalData.length == 0){
-        console.log("No entries to show!");
-    }
-    
-    return currentJournalData;
+	console.log("Passing data around!");
+
+	let currentJournalData = useContext(JournalEntriesDataContext);
+	if (currentJournalData.length == 0){
+		console.log("No entries to show!");
+	}
+
+	return currentJournalData;
 }
 
+export function useJournalEntriesSetter(){
+	return useContext(JournalEntriesSetterContext);
+}
 
-
-// Create the context provider
-
+// Create the context provider 
 
 export default function JournalEntriesProvider(props){
-    let [journalEntries, setJournalEntries] = useState([]);
+	let [journalEntries, setJournalEntries] = useState([]);
 
-    return(
-        <JournalEntriesContext.Provider value={journalEntries}>
-            {props.children}
-        </JournalEntriesContext.Provider>
-    )
+    useEffect(() => {
+        // Read from local storage and apply to state
+    })
+
+    const [journalEntriesLocalStorage, setJournalEntriesLocalStorage] = useLocalStorage("supercooljournalapp-data", []);
+
+    useEffect(() => {
+        // write data into local storage
+    }, [journalEntries])
+
+	return(
+		
+		// <JournalEntriesContext.Provider value={[journalEntries, setJournalEntries]}>
+		<JournalEntriesDataContext.Provider value={journalEntries}>
+			<JournalEntriesSetterContext.Provider value={setJournalEntries}>
+				{props.children}
+			</JournalEntriesSetterContext.Provider>
+			
+		</JournalEntriesDataContext.Provider>
+	);
 }
