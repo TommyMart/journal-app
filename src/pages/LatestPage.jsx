@@ -1,11 +1,8 @@
+export default function LatestPage(){
 
-
-export default function LatestPage() {
-
-    return(
-        <>
-            <h1>Journal Latest Page</h1>
-        
-        </>
-    )
+	return(
+		<>
+			<h1>Latest Journal Entry Page</h1>
+		</>
+	);
 }

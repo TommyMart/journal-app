@@ -32,15 +32,17 @@ export function useJournalEntriesSetter(){
 export default function JournalEntriesProvider(props){
 	let [journalEntries, setJournalEntries] = useState([]);
 
-    useEffect(() => {
-        // Read from local storage and apply to state
-    })
+	const [journalEntriesLocalStorage, setJournalEntriesLocalStorage] = useLocalStorage("supercooljournalapp-data", []);
 
-    const [journalEntriesLocalStorage, setJournalEntriesLocalStorage] = useLocalStorage("supercooljournalapp-data", []);
+	useEffect(() => {
+		// Read from local storage and apply that to state
+		setJournalEntries(journalEntriesLocalStorage);
+	}, []);
 
-    useEffect(() => {
-        // write data into local storage
-    }, [journalEntries])
+	useEffect(() => {
+		// Write data into local storage
+		setJournalEntriesLocalStorage(journalEntries);
+	}, [journalEntries]);
 
 	return(
 		
